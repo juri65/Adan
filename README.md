@@ -37,5 +37,6 @@
 * geocoder
 * gon
 * dotenv-rails
+* kaminari
 
 
