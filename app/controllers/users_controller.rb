@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
   def show
     @user = User.find(params[:id])
     @posts = @user.posts
@@ -8,7 +9,7 @@ class UsersController < ApplicationController
   def edit
     @user = User.find(params[:id])
     if @user == current_user
-  　 render "edit"
+    render :edit
     else
     redirect_to posts_path
     end
@@ -26,12 +27,12 @@ class UsersController < ApplicationController
     end 
   end
   
+  
+  
   private
   
   def user_params
     params.require(:user).permit(:name, :profile_image)
   end
-  
-  
   
 end 

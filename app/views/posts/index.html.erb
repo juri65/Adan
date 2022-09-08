@@ -1,20 +1,13 @@
 <h4>投稿一覧</h4>
-
-<table>
-    <tbody>
+<div class="container">
+    <div class="row">
         <% @posts.each do |post| %>
-        <tr>
-            <td>
-                <%= link_to post_path(post.id) do %>
-                    <%= image_tag post.get_image(100,100) %>
-                <% end %>
-            </td>
-        </tr>
+        <div class="col-3 ">
+            <%= link_to post_path(post.id) do %>
+            <%= image_tag post.get_image(200,200) %>
+            <% end %>
+        </div>
         <% end %>
-    </tbody>
-    
-    
-</table>
-     
-     
+    </div>
+</div>
     <%#= image_tag post_image.get_image %>

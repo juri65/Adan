@@ -2,29 +2,40 @@
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
           <%#= image_tag 'no1.png', size: "50×50" %> <!--ロゴにするか文字にするか-->
-        <a class="navbar-brand p-3" href="/"></a>　<!--いるのか？-->
+        <a class="navbar-brand p-3" href="/" style="font-family: Comic Sans MS;">Adan</a>　<!--いるのか？-->
          <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav ml-auto">
               
          <% if user_signed_in? %>
+         <!--ログインしている時 -->
+         <p class="text-black">
+          ようこそ、<%= current_user.name %>さん！
+         </p>
+         
+        <ul class="navbar-nav ml-auto">
          <li>
-          <%= link_to 'マイページ', user_path(current_user.id) %>
+          <%= link_to 'Index', posts_path, class: "header-button btn text-black" %>
          </li>
          <li>
-          <%= link_to '投稿フォーム', new_post_path %>
+          <%= link_to 'マイページ', user_path(current_user.id), class: "header-button btn text-black" %>
          </li>
          <li>
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+          <%= link_to '投稿フォーム', new_post_path, class: "header-button btn text-black" %>
          </li>
+         <li>
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "header-button btn text-black" %>
+         </li>
+        <!-- ログインしていない時 -->
          <% else %>
          <li>
-          <%= link_to "新規登録", new_user_registration_path %>
+          <%= link_to "新規登録", new_user_registration_path, class: "header-button btn text-black" %>
          </li>
          <li>
-          <%= link_to "ログイン", new_user_session_path %>
+          <%= link_to "ログイン", new_user_session_path, class: "header-button btn text-black" %>
          </li>
          <% end %>
-              
+           </ul>
+           <!-- 検索機能 -->
           </ul>
         </div>
       </div>

@@ -2,12 +2,47 @@
  <%= image_tag @post.image, size:'250x250' %>
  
 <%= link_to user_path(@post.user) do %>
-    <%= image_tag @post.user.get_profile_image(100,100) %><br>
+    <%= image_tag @post.user.get_profile_image(100,100) %>
     <%= @post.user.name %>
 <% end %>
 <%= @post.text %>
 <% if @post.user == current_user %>
-    <td><%= link_to '編集する', edit_post_path(@post), class: "btn btn-sm btn-success" %></td>
-    <td><%= link_to '削除', post_path(@post), method: :delete, class: "btn btn-sm btn-success" %></td>
+    <td><%= link_to '編集する', edit_post_path(@post), class: "btn btn-sm btn-outline-success" %></td>
+    <td><%= link_to '削除', post_path(@post), method: :delete, class: "btn btn-sm btn-outline-danger" %></td>
 <% end %>
+
 <%= @post.created_at.strftime('%Y/%m/%d') %>
+
+ <% if @post.favorited_by?(current_user) %>
+    <p>
+      <%= link_to post_favorites_path(@post), method: :delete do %>
+        ♥<%= @post.favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to post_favorites_path(@post), method: :post do %>
+        ♡<%= @post.favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %>
+<div>
+  <p>コメント件数：<%= @post.comments.count %></p>
+  <% @post.comments.each do |post_comment| %>
+    <p><%= image_tag post_comment.user.get_profile_image(100,100) %></p>
+    <%= post_comment.user.name %>
+    <%= post_comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %>
+    <% if post_comment.user == current_user %>
+      <%= link_to "削除", post_comment_path(post_comment.post, post_comment), method: :delete %>
+    <% end %>
+  <% end %>
+</div>
+
+    <div><!--divはいる？-->
+  <%= form_with model: [@post, @comment] do |f| %>
+    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+    <%= f.submit "送信する" %>
+  <% end %>
+   </div>
+    
+    
