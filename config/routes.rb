@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
+  devise_scope :user do
+    post 'users/guest_sign_in', to: 'users/sessions#guest_sign_in'
+  end
   root to: "homes#top"
   resources :posts, only: [:new,:create, :show, :edit, :update, :index, :destroy] do
     resources :comments, only: [:create, :destroy]
@@ -12,6 +15,11 @@ Rails.application.routes.draw do
    end
   get 'users/unsubscribe' => 'users#unsubscribe'
   patch 'users/withdraw' => 'users#withdraw'
+  get 'search' => 'searches#search'
+  
+  get 'spots/index' => 'spots#index'
+
+  resources :spots, only: [:index]
   #get 'users/my_page' => 'users#show'
   #get 'users/information/edit' => 'users#edit'
   #patch 'users/information' => 'users#update'

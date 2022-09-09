@@ -1,9 +1,12 @@
 <!--ユーザー詳細-->
+
 <div>
   <h3><%= @user.name %></h3>
   <%= image_tag @user.get_profile_image(100,100) %>
+  <% if @user.name != "guestuser" %>
   <% if @user == current_user %>
     <p><%= link_to "プロフィール編集", edit_user_path(@user) %></p>
+  <% end %>
   <% end %>
 </div>
 <% if @user != current_user %>
@@ -13,6 +16,11 @@
   <%= link_to "フォローする", user_relationships_path(@user.id), method: :post %>
 <% end %>
 <% end %>
+
+<%= @user.followings.count %>
+<%= link_to "フォロー", user_followings_path(@user), class: "btn text-black" %>
+<%= @user.followers.count %>
+<%= link_to "フォロワー", user_followers_path(@user), class: "btn text-black" %>
 
 <%#= render 'relationships/follow' %>
 <!-- フォローカウント -->
@@ -26,3 +34,4 @@
   
 </div>
 <% end %>
+<%= paginate @posts %>
