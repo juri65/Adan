@@ -18,7 +18,9 @@ class UsersController < ApplicationController
   end
 
   def index
-    @posts = @user.posts.page(params[:page]).per(8)
+    @userposts = current_user.posts.page(params[:page]).per(8)
+    
+    @following_posts = Post.where(user_id: current_user.followings.pluck(:id)).page(params[:page]).per(8)
   end
   
   def update

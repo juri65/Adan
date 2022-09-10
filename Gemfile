@@ -62,3 +62,4 @@ gem 'gmaps4rails'
 gem 'geocoder'
 gem 'gon'
 gem 'dotenv-rails'
+gem "net-smtp", "~> 0.3.1"

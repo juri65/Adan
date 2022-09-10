@@ -32,7 +32,7 @@ class User < ApplicationRecord
    
    # フォローしたときの処理
     def follow(user_id)
-        unless user == current_user 
+        unless user_id == self.id
         relationships.create(followed_id: user_id)
         end 
     end

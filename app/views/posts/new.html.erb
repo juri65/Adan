@@ -5,5 +5,13 @@
 
 <h4>本文</h4>
 <%= f.text_area :text %>
+.spot
+<%= f.fields_for :spot do |s| %>
+<%= s.label :address, "レビュー場所(Google Mapで検索)", class: 'spot__title' %>
+<%#= s.string_field :address, placeholder: "スポットを入力", id: "address", class: 'spot__text' %>
+<%#= input{onclick: "codeAddress()", type: "button", value: "検索する"} %>
+<% end %>
+<%= f.text_field :latitude  %>
+<%= f.text_field :longitude  %>
 <%= f.submit '載せる' %>
 <% end %>

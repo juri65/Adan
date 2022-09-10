@@ -11,8 +11,12 @@
          <p class="text-black">
           ようこそ、<%= current_user.name %>さん！
          </p>
-           <%#= render 'searches/searche' %>
+           <%= render 'searches/serach' %>
         <ul class="navbar-nav ml-auto">
+         
+         <li>
+          <%= link_to 'Home', users_path, class: "header-button btn text-black" %>
+         </li>
          <li>
           <%= link_to 'Index', posts_path, class: "header-button btn text-black" %>
          </li>

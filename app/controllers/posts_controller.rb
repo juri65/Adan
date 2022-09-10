@@ -1,9 +1,14 @@
 class PostsController < ApplicationController
-  before_action :ensure_user, only: [:edit, :update, :destroy]
+  before_action :ensure_user, only: [:show, :edit, :update, :destroy]
+  
+  def new
+    @post = Post.new
+  end
   
   def show
     @post = Post.find(params[:id])
     @comment = Comment.new
+    @spot = @post.spot
   end
 
   def edit
@@ -14,18 +19,17 @@ class PostsController < ApplicationController
     @posts = Post.page(params[:page]).per(8)
   end
 
-  def new
-    @post = Post.new
-  end
-  
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
-    if @post.save
+  　@post.save!
+  　@spot = Spot.new(spot_params)
+  　@spot.save!
     redirect_to posts_path
-    else
-    render :new
-    end 
+  rescue
+    render action :new
+    
+    
   end 
   
   def update
@@ -48,6 +52,10 @@ class PostsController < ApplicationController
   
   def post_params
     params.require(:post).permit(:image,:text)
+  end 
+  
+  def spot_params
+    params.require(:spot).permit(:latitude,:longitude)
   end 
   
   def ensure_user

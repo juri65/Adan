@@ -1,13 +1,30 @@
 <h1>Users/index=Home</h1>
 <div class="container">
     <div class="row">
-        <% @posts.each do |post| %>
+        <% @userposts.each do |post| %>
         <div class="col-10 ">
+            <%= post.user.name %>
             <%= link_to post_path(post.id) do %>
             <%= image_tag post.get_image(200,200) %>
             <% end %>
         </div>
         <% end %>
-        <%= paginate @posts %>
+        <%= paginate @userposts %>
     </div>
 </div>
+
+<h1>following</h1>
+<div class="container">
+    <div class="row">
+        <%  @following_posts.each do |post| %>
+        <div class="col-10 ">
+            <%= post.user.name %>
+            <%= link_to post_path(post.id) do %>
+            <%= image_tag post.get_image(200,200) %>
+            <% end %>
+        </div>
+        <% end %>
+        <%= paginate  @following_posts %>
+    </div>
+</div>
+
