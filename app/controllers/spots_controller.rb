@@ -17,7 +17,7 @@ class SpotsController < ApplicationController
     end
 
     def index
-       
+        @spot = spot.new(spot_params)
     end
 
     private

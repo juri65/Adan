@@ -3,12 +3,21 @@ class PostsController < ApplicationController
   
   def new
     @post = Post.new
+    @post.build_spot
   end
   
   def show
     @post = Post.find(params[:id])
+    if @post.spot.present?
+      @lat = @post.spot.latitude
+      @lng = @post.spot.longitude
+      gon.lat = @lat
+      gon.lng = @lng
+      @spot = @post.spot
+    else
+      @spot = nil
+    end
     @comment = Comment.new
-    @spot = @post.spot
   end
 
   def edit
@@ -16,20 +25,22 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.page(params[:page]).per(8)
+    @posts = Post.page(params[:page]).per(20)
   end
 
   def create
-    @post = Post.new(post_params)
-    @post.user_id = current_user.id
-  　@post.save!
-  　@spot = Spot.new(spot_params)
-  　@spot.save!
-    redirect_to posts_path
-  rescue
-    render action :new
-    
-    
+    # binding.pry
+    if @post = Post.new(post_params)
+       @post.user_id = current_user.id
+       @post.save!
+      # @spot = Spot.new(spot_params)
+      # @spot = Spot.new
+      # @spot.post_id = @post.id
+      # @spot.save!
+       redirect_to posts_path
+    else
+       render :new
+    end
   end 
   
   def update
@@ -51,7 +62,7 @@ class PostsController < ApplicationController
   private
   
   def post_params
-    params.require(:post).permit(:image,:text)
+    params.require(:post).permit(:image,:text,spot_attributes: [:address, :latitude, :longitude])
   end 
   
   def spot_params
@@ -61,7 +72,7 @@ class PostsController < ApplicationController
   def ensure_user
     @posts = current_user.posts
     @post = @posts.find_by(id: params[:id])
-    redirect_to post_path unless @post
+    redirect_to posts_path unless @post
   end
 
   

@@ -38,7 +38,7 @@
   <% end %>
 </div>
 
-    <div><!--divはいる？-->
+    <div>
   <%= form_with model: [@post, @comment] do |f| %>
     <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
     <%= f.submit "送信する" %>
@@ -49,8 +49,16 @@
     
 <div id='map' style="width: 600px; height: 600px;"></div>
 <script>
-let map
+
 function initMap(){
+  let map
+  <% if @spot == nil || @spot.latitude == nil || @spot.longitude == nil %>
+    $('#map').css('display', 'none');
+    return;
+    <% @spot = Spot.new %>
+    <% @spot.latitude = 0 %>
+    <% @spot.longitude = 0 %>
+  <% end %>
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: <%= @spot.latitude %>, lng: <%= @spot.longitude %>},
     zoom: 15,
@@ -67,4 +75,4 @@ function initMap(){
    //geocoder = new google.maps.Geocoder()
 }
 </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap" async defer></script>
