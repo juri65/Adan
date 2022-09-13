@@ -1,15 +1,20 @@
-
-<div class="container">
-    <div class="row">
-        <% @following_posts.each do |post| %>
-        <div class="col-10 ">
+<!--ユーザーHome-->
+<div class="card-list-container py-4">
+    <% @following_posts.each do |post| %>
+    <div class="card w-50 mx-auto mt-4 py-3 shadow-lg">
+            <div><%= image_tag post.user.get_profile_image(100,100) %></div>
             <%= post.user.name %>
             <%= link_to post_path(post.id) do %>
-            <%= image_tag post.get_image(200,200) %>
+            <%= image_tag post.get_image(400,400) %>
             <% end %>
-        </div>
-        <% end %>
-        <%= paginate  @following_posts %>
+      <div class="col-10">
+          <%= render 'favorits/favorit',post:post %>
+      
+        <p class="card-text"><%= post.text %></p>
+        <span><%= link_to "コメント#{post.comments.count} 件", post_path(post.id), class:"text-dark" %></span>
+      </div>
     </div>
+    <% end %>
+<%= paginate  @following_posts %>
 </div>
 

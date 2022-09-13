@@ -27,6 +27,10 @@ class PostsController < ApplicationController
   def index
     @posts = Post.order(created_at: :desc).page(params[:page]).per(20)
     #@posts = Post.all.order(created_at: :desc)
+    Rails.cache.delete('postDelRedirect')
+    Rails.cache.fetch('postDelRedirect') do
+      "/posts"
+    end
   end
 
   def create
@@ -54,7 +58,11 @@ class PostsController < ApplicationController
   
   def destroy
     @post.destroy
-    redirect_to posts_path
+    if Rails.cache.fetch("postDelRedirect")
+      redirect_to Rails.cache.fetch("postDelRedirect")
+    else
+      redirect_to users_path
+    end
     #Comment.find(params[:id]).destroy
     #redirect_to posts_path(params[:post_id])
   end

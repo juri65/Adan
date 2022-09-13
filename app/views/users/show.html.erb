@@ -35,7 +35,7 @@
 <div class="container">
   <div class="row">
       <% @posts.each do |post| %>
-        <div class="col-md-3">
+        <div class="col-md-3 py-4">
           <%= link_to post_path(post.id), 'data-no-turbolinks' => true do %>
           <%= image_tag post.get_image(200,200) %>
           <% end %>

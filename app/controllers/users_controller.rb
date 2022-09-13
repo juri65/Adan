@@ -4,8 +4,13 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts.page(params[:page]).per(20)
+    @posts = @user.posts.order(created_at: :desc).page(params[:page]).per(20)
    
+    Rails.cache.delete('postDelRedirect')
+    Rails.cache.fetch('postDelRedirect') do
+      "/users/#{@user.id}"
+    end
+
   end
 
   def edit
@@ -18,12 +23,19 @@ class UsersController < ApplicationController
   end
 
   def index
+    
     #@userposts = current_user.posts.page(params[:page]).per(8)
     #pluckにpushすることで自分の投稿も表示させている(whereの中にarr)
     arr = current_user.followings.pluck(:id).push(current_user.id)
     @following_posts = Post.where(user_id: arr ).order(created_at: :desc).page(params[:page]).per(20)
   
     #.order(created_at: :desc)
+    Rails.cache.delete('postDelRedirect')
+    Rails.cache.fetch('postDelRedirect') do
+      "/users"
+    end
+    
+    
   end
   
   def update
