@@ -8,5 +8,5 @@
 <%= f.submit '変更する' %>
 <% end %>
 <% if @post.user == current_user %>
-    <%= link_to "削除", post_path(@post_image), method: :delete %>
+    <%= link_to "削除", post_path(@post), method: :delete %>
 <% end %>

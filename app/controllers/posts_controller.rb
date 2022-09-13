@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :ensure_user, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_user, only: [:edit, :update, :destroy]
   
   def new
     @post = Post.new
@@ -25,7 +25,8 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.page(params[:page]).per(20)
+    @posts = Post.order(created_at: :desc).page(params[:page]).per(20)
+    #@posts = Post.all.order(created_at: :desc)
   end
 
   def create
@@ -53,9 +54,9 @@ class PostsController < ApplicationController
   
   def destroy
     @post.destroy
-    redirect_to post_path
-    Comment.find(params[:id]).destroy
-    redirect_to post_path(params[:post_id])
+    redirect_to posts_path
+    #Comment.find(params[:id]).destroy
+    #redirect_to posts_path(params[:post_id])
   end
   
   #投稿データのストロングパラメータ
@@ -69,10 +70,10 @@ class PostsController < ApplicationController
     params.require(:spot).permit(:latitude,:longitude)
   end 
   
-  def ensure_user
+  def ensure_user #例外処理？
     @posts = current_user.posts
     @post = @posts.find_by(id: params[:id])
-    redirect_to posts_path unless @post
+    redirect_to posts_path unless @post #@postがなかったらposts_path?
   end
 
   

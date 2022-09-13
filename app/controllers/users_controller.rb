@@ -18,9 +18,12 @@ class UsersController < ApplicationController
   end
 
   def index
-    @userposts = current_user.posts.page(params[:page]).per(8)
-    
-    @following_posts = Post.where(user_id: current_user.followings.pluck(:id)).page(params[:page]).per(8)
+    #@userposts = current_user.posts.page(params[:page]).per(8)
+    #pluckにpushすることで自分の投稿も表示させている(whereの中にarr)
+    arr = current_user.followings.pluck(:id).push(current_user.id)
+    @following_posts = Post.where(user_id: arr ).order(created_at: :desc).page(params[:page]).per(20)
+  
+    #.order(created_at: :desc)
   end
   
   def update
