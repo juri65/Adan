@@ -64,3 +64,4 @@ gem 'geocoder'
 gem 'gon'
 gem 'dotenv-rails'
 gem "net-smtp", "~> 0.3.1"
+gem 'jquery-rails'

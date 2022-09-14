@@ -11,19 +11,9 @@
       <% end %>
       <%= @post.text %><br>
       <%= @post.created_at.strftime('%Y/%m/%d') %>
-    <% if @post.favorited_by?(current_user) %>
-      <p>
-        <%= link_to post_favorites_path(@post), method: :delete do %>
-          ♥ いいね！<%= @post.favorites.count %> 件
-        <% end %>
-      </p>
-    <% else %>
-      <p>
-        <%= link_to post_favorites_path(@post), method: :post do %>
-          ♡ いいね！<%= @post.favorites.count %> 件
-        <% end %>
-      </p>
-    <% end %>
+     <div id="favorite_btn_<%= @post.id %>">
+          <%= render 'favorites/favorite', post: @post %>
+    </div>
 <div>
   <p>コメント件数：<%= @post.comments.count %></p>
   <% @post.comments.each do |post_comment| %>
