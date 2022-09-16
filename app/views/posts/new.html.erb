@@ -1,25 +1,36 @@
-<h4>新規投稿ページ</h4>
-<%= form_with model: @post do |f| %>
-  <h4>画像</h4>
-  <%= f.file_field :image, accept: "image/*" %>
-  
-  <h4>本文</h4>
-  <%= f.text_area :text %><br>
-  <%= f.fields_for :spot do |s| %>
-    <%= s.label :address, "レビュー場所(Google Mapで検索)", class: 'spot__title' %>
-    <%#= s.string_field :address, placeholder: "スポットを入力", id: "address", class: 'spot__text' %>
-    <%#= input{onclick: "codeAddress()", type: "button", value: "検索する"} %>
-    <%= s.text_field :address, placeholder: "スポットを入力", id: "address", class: 'spot__text' %>
-    <input id="search_spot" type="button" value="検索する" onClick="codeAddress();" />
-    <%= s.text_field :latitude %>
-    <%= s.text_field :longitude %>
-  <% end %>
-  
-  <%= f.submit '載せる' %>
-<% end %>
-
-<div class="map" id="map" style="height: 320px; width: 640px;"></div>
-
+<div class="container">
+  <h4 class="text-center py-4"><i class="fas fa-pencil-alt"></i> 新規投稿 <i class="fas fa-pencil-alt"></i></h4>
+  <div class="row">
+    <div class=" col-6 offset-md-3">
+      <%= form_with model: @post do |f| %>
+      <div class="row mb-3">
+        <%= f.label :"画像", class: "col-md-3" %>
+        <%= f.file_field :image, accept: "image/*" %>
+      </div>
+      <div class="row mb-3">
+        <%= f.label :"本文", class: "col-md-3" %>
+        <%= f.text_area :text %>
+      </div>
+      <%= f.fields_for :spot do |s| %>
+      <div class="row mb-3">
+        <%= s.label :address, "レビュー場所(Google Mapで検索)", class: 'spot__title' %>
+        <%#= s.string_field :address, placeholder: "スポットを入力", id: "address", class: 'spot__text' %>
+        <%#= input{onclick: "codeAddress()", type: "button", value: "検索する"} %>
+        <%= s.text_field :address, placeholder: "スポットを入力", id: "address", class: 'spot__text' %>
+        <input id="search_spot" type="button" value="検索する" onClick="codeAddress();" />
+      </div>
+        <%#= s.text_field :latitude %>
+        <%#= s.text_field :longitude %>
+      <% end %>
+        <div class="text-center mb-4 mt-4">
+          <%= f.submit '載せる' %>
+        </div>
+      <% end %>
+      
+      <div class="map" id="map" style="height: 320px; width: 640px;"></div>
+    </div>
+  </div>
+</div>
  <script>
   let map //変数の定義
   let geocoder //変数の定義
