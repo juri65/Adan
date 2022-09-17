@@ -2,8 +2,11 @@
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
           <%#= image_tag 'no1.png', size: "50×50" %> <!--ロゴにするか文字にするか-->
-        <a class="navbar-brand p-3" href="/" style="font-family: Comic Sans MS; font-size:45px;">Adan</a>　
-         <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <a class="navbar-brand p-3" href="/" style="font-family: Comic Sans MS; font-size:45px;">Adan</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav ml-auto">
               
          <% if user_signed_in? %>

@@ -14,6 +14,7 @@ class User < ApplicationRecord
    has_many :followers, through: :reverse_of_relationships, source: :follower
    
    has_one_attached :profile_image
+   validates :introduction, presence: false, length: { maximum: 50 }
    
    def self.guest
     find_or_create_by!(name: 'guestuser' ,email: 'guest@example.com') do |user|
@@ -21,6 +22,11 @@ class User < ApplicationRecord
       user.name = "guestuser"
     end
    end
+   
+     # is_deletedがfalseならtrueを返すようにしている
+    def active_for_authentication?
+      super && (is_deleted == false)
+    end
    
    def get_profile_image(width, height)
     unless profile_image.attached?

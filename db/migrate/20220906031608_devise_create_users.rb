@@ -34,7 +34,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       ##名前カラム
       t.string :name
       t.boolean :is_deleted, default: false
-
+      t.string :introduction
 
       t.timestamps null: false
     end
