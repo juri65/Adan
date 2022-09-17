@@ -16,26 +16,22 @@ class UsersController < ApplicationController
   def edit
     @user = User.find(params[:id])
     if @user == current_user
-    render :edit
+      render :edit
     else
-    redirect_to posts_path
+      redirect_to posts_path
     end
   end
 
   def index
-    
     #@userposts = current_user.posts.page(params[:page]).per(8)
     #pluckにpushすることで自分の投稿も表示させている(whereの中にarr)
     arr = current_user.followings.pluck(:id).push(current_user.id)
     @following_posts = Post.where(user_id: arr ).order(created_at: :desc).page(params[:page]).per(20)
-  
     #.order(created_at: :desc)
     Rails.cache.delete('postDelRedirect')
     Rails.cache.fetch('postDelRedirect') do
       "/users"
     end
-    
-    
   end
   
   def update
@@ -51,9 +47,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     # is_deletedカラムをtrueに変更することにより削除フラグを立てる
     @user.update(is_deleted: true)
-    reset_session
-    flash[:notice] = "退会処理を実行いたしました"
-    redirect_to root_path
+      reset_session
+      flash[:notice] = "退会処理を実行いたしました"
+        redirect_to root_path
   end
   
   private
