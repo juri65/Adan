@@ -42,7 +42,7 @@ class PostsController < ApplicationController
       # @spot = Spot.new
       # @spot.post_id = @post.id
       # @spot.save!
-       redirect_to posts_path
+       redirect_to users_path
     else
        render :new
     end
