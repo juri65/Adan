@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-5 py-4">
-      <%= image_tag @user.get_profile_image(200,200) %>
+      <%= image_tag @user.get_profile_image(200,200), class: "rounded-circle" %>
     </div>
     <div class="col-5 py-4">
     <h3><%= @user.name %></h3>
@@ -43,7 +43,7 @@
       <% @posts.each do |post| %>
         <div class="col-md-3 py-4">
           <%= link_to post_path(post.id), 'data-no-turbolinks' => true do %>
-          <%= image_tag post.get_image(200,200) %>
+          <%= image_tag post.image.variant(resize: "200x200!", gravity: "center") %>
           <% end %>
         </div>
       <% end %>
