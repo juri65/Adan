@@ -25,7 +25,7 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.order(created_at: :desc).page(params[:page]).per(5)
+    @posts = Post.order(created_at: :desc).page(params[:page]).per(20)
     #@posts = Post.all.order(created_at: :desc)
     Rails.cache.delete('postDelRedirect')
     Rails.cache.fetch('postDelRedirect') do
