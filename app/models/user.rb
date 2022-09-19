@@ -12,6 +12,9 @@ class User < ApplicationRecord
    # 一覧画面で使う
    has_many :followings, through: :relationships, source: :followed
    has_many :followers, through: :reverse_of_relationships, source: :follower
+   # 通知
+   has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+   has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
    
    has_one_attached :profile_image
    validates :introduction, presence: false, length: { maximum: 50 }
@@ -49,6 +52,18 @@ class User < ApplicationRecord
     # フォローしているか判定
     def following?(user)
         followings.include?(user)
+    end
+    
+    # 通知(フォロー)
+    def create_notification_follow!(current_user)
+        temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ? ",current_user.id, id, 'follow'])
+        if temp.blank?
+          notification = current_user.active_notifications.new(
+            visited_id: id,
+            action: 'follow'
+          )
+          notification.save if notification.valid?
+        end
     end
    
    # 検索方法分岐

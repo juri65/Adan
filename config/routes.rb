@@ -24,12 +24,10 @@ Rails.application.routes.draw do
   get 'search' => 'searches#search'
   
   get 'spots/index' => 'spots#index'
-
+   # 地図
   resources :spots, only: [:index]
-  #get 'users/my_page' => 'users#show'
-  #get 'users/information/edit' => 'users#edit'
-  #patch 'users/information' => 'users#update'
-  #get 'users/index'
+   # 通知
+  resources :notifications, only: :index
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
