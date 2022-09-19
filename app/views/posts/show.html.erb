@@ -1,10 +1,10 @@
 <!--投稿詳細-->
 <div class="container">
   <div class="row">
-    <div class="col-5 py-4">
+    <div class="col-6 py-4">
      <%= image_tag @post.get_image(400,400) %>
     </div>
-    <div class="col-5 py-4">
+    <div class="col-4 py-4">
       <%= link_to user_path(@post.user) do %>
         <%= image_tag @post.user.get_profile_image(100,100), class: "rounded-circle" %>
         <%= @post.user.name %><br>
@@ -14,26 +14,29 @@
       <div id="favorite_btn_<%= @post.id %>">
         <%= render 'favorites/favorite', post: @post %>
       </div>
-      <div>
         <p>コメント件数：<%= @post.comments.count %></p>
         <% @post.comments.each do |post_comment| %>
+          <%= link_to user_path(post_comment.user) do  %>
           <%= image_tag post_comment.user.get_profile_image(50,50), class: "rounded-circle" %>
+          <%end%>
           <strong><%= post_comment.user.name %></strong>
+        <div class="row col-10col-6 offset-md-2">
           <%= post_comment.comment %>
           <%#= post_comment.created_at.strftime('%Y/%m/%d') %>
           <% if post_comment.user == current_user %>
-            <%= link_to "削除", post_comment_path(post_comment.post, post_comment), method: :delete %>
+            <%= link_to "削除", post_comment_path(post_comment.post, post_comment), class: "col-md-3", method: :delete %>
+            <i class="far fa-trash-alt"></i>
           <% end %>
         <% end %>
-      </div>
+        </div>
       <div>
         <%= form_with model: [@post, @comment] do |f| %>
           <%= f.text_area :comment, placeholder: "コメントをここに" %>
           <%= f.submit "コメントする",class: "btn btn-sm btn-outline-info" %>
         <% end %>
-      
       </div>
-   </div>
+    </div>
+   
      <div class="col-2 py-4">
       <% if @post.user == current_user %>
         <%= link_to '編集する', edit_post_path(@post), class: "btn btn-sm btn-outline-info" %>
