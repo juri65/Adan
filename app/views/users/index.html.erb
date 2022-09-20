@@ -2,8 +2,11 @@
 <div class="card-list-container py-4">
     <% @following_posts.each do |post| %>
     <div class="card w-50 mx-auto mt-4 py-3 shadow-lg">
-        <div><%= image_tag post.user.get_profile_image(100,100), class: "rounded-circle" %>
-        <%= post.user.name %></div>
+        <div><%= link_to user_path(post.user) do  %>
+             <%= image_tag post.user.get_profile_image(100,100), class: "rounded-circle" %>
+             <% end %>
+             <%= post.user.name %>
+        </div>
         <%= link_to post_path(post.id) do %>
         <%= image_tag post.get_image(500,500) %>
         <% end %>

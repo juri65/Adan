@@ -10,7 +10,11 @@ class FavoritesController < ApplicationController
     #else
       #redirect_to post_path(post)
     #end
-    post.create_notification_like!(current_user) # 通知
+    @post.create_notification_favorite!(current_user)# 通知
+    respond_to do |format|
+        format.html {redirect_to request.referrer}
+        format.js
+      end
     render :toggle
   end
 
