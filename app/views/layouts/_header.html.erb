@@ -35,13 +35,13 @@
          <li>
           <%= link_to  notifications_path, class: "header-button btn text-black" do %>
            <div style="position: relative;">
-           <i class="far fa-bell"></i>
-           <% if unchecked_notifications.any? %>
-           <div style="position:absolute; display:flex;top: -5px; left:10px;">
-            <i class="fa fa-circle" style="color: gold; "></i>
-           </div>
-           </div>
-           <% end %>
+             <i class="far fa-bell "></i>
+             <% if unchecked_notifications.any? %>
+             <div style="position:absolute; display:flex;top: -5px; left:10px;">
+               <i class="fa fa-circle" style="color: gold; "></i>
+             </div>
+             <% end %>
+            </div>
           <% end %>
          </li>
          <li>
