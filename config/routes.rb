@@ -28,6 +28,6 @@ Rails.application.routes.draw do
   resources :spots, only: [:index]
    # 通知
   resources :notifications, only: :index
-  
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+   # グループ
+  resources :groups, except: [:destroy]
 end

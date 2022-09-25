@@ -4,6 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
    has_many :posts, dependent: :destroy
+   has_many :group_users
    has_many :favorites, dependent: :destroy
    has_many :comments, dependent: :destroy
    # フォローをした、されたの関係
