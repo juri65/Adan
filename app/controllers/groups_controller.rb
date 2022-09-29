@@ -2,18 +2,23 @@ class GroupsController < ApplicationController
     before_action :authenticate_user!
   before_action :ensure_correct_user, only: [:edit, :update]
 
+  def new
+    @group = Group.new
+    @group.users << current_user
+  end
+  
   def index
     @post = Post.new
-    @groups = Group.all
+    @groups = Group.all.order(updated_at: :desc)
   end
 
   def show
-    @post = Post.new
-    @group = Group.find(params[:id])
-  end
-
-  def new
-    @group = Group.new
+    #@post = Post.new
+    @group = Group.find_by(id: params[:id])
+    if !@group.users.include?(current_user)
+      @group.users << current_user
+    end
+    @groupposts = Grouppost.where(group_id: @group.id).all
   end
 
   def create
@@ -86,7 +91,7 @@ class GroupsController < ApplicationController
   private
 
   def group_params
-    params.require(:group).permit(:name, :introduction, :image)
+    params.require(:group).permit(:name, :introduction, :image, :user_id [])
   end
 
   def ensure_correct_user

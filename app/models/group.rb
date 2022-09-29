@@ -1,10 +1,13 @@
 class Group < ApplicationRecord
     has_many :group_users
     has_many :users, through: :group_users, dependent: :destroy
-     # グループオーナー表示のために
+    # グループオーナー表示のために
     belongs_to :user
     
-    validates :name, presence: true
+    has_many :groupposts
+    accepts_nested_attributes_for :group_users
+    
+    validates :name, presence: true, uniqueness: true
     validates :introduction, presence: true
     #attachment :image, destroy: false
     has_one_attached :image
