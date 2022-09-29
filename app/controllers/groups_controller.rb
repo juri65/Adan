@@ -19,6 +19,7 @@ class GroupsController < ApplicationController
       @group.users << current_user
     end
     @groupposts = Grouppost.where(group_id: @group.id).all
+    @other_users = @group.get_other_users
   end
 
   def create
@@ -60,12 +61,12 @@ class GroupsController < ApplicationController
   end
   
   def invitation
-    @group = Group.find(params[:id])
-　　# この後 view に設置するフォームの値を参照する。
+    @group = Group.find(params[:group_id])
+    #この後 view に設置するフォームの値を参照する。
     @user = User.find_by(id: params[:user_id])
     notification = Notification.where(visited_id: @user.id, group_id: @group.id, action: "invitation")
     unless notification.exists?
-      # それぞれの仮引数を置き換えて、team.rb に記述したメソッドを呼び出す。
+      # それぞれの仮引数を置き換えて、group.rb に記述したメソッドを呼び出す。
       @group.group_invitation_notification(current_user, @user.id, @group.id)
       # 遷移する前のURLを取得し、リダイレクトさせる。
       redirect_to request.referer, notice: "招待を送りました。"
@@ -76,9 +77,9 @@ class GroupsController < ApplicationController
   
   def join
     @group = Group.find(params[:id])
-    # @team.users に、current_user　のレコードが含まれていなければ以下の処理を行う。
+    # @group.users に、current_userのレコードが含まれていなければ以下の処理を行う。
     unless @group.users.include?(current_user)
-　　　# @team.users に、current_user のレコードを追加する。
+    # @group.users に、current_user のレコードを追加する。
       @group.users << current_user
       # 招待通知を検索して削除。
       notification = Notification.find_by(visited_id: current_user.id, group_id: @group.id, action: "invitation")

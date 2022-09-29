@@ -15,7 +15,7 @@ class Group < ApplicationRecord
     def group_invitation_notification(current_user, visited_id, group_id)
         # すでに招待用の通知が送られているか検索。
         group = Notification.where(visitor_id: current_user.id, visited_id: visited_id, group_id: group_id)
-    　　　　  # 上記で検索した通知がない場合のみ、通知レコードを作成。
+         #上記で検索した通知がない場合のみ、通知レコードを作成。
         if group.blank?
           notification = current_user.active_notifications.new(
             visited_id: visited_id,
@@ -27,4 +27,12 @@ class Group < ApplicationRecord
           
         end
     end
+    
+    def get_other_users
+        other_user_ids = User.all.pluck(:id)
+        group_user_ids = GroupUser.where("group_id = ?", self.id).pluck(:user_id)
+        target_user_ids = other_user_ids.excluding(group_user_ids)
+        other_users = User.where(id: target_user_ids)
+    end
+    
 end

@@ -27,8 +27,8 @@
       </table>
        <!--@other_users は、チームに所属していないユーザーの値を取得している。-->
       <% if @other_users.exists? %>
-        <%= form_with model: @user, url: invitation_group_path(@group), method: :post, local: true do |f| %>
-          <%= f.collection_select :user_id, @other_users, :id, :nickname %>
+        <%= form_with model: @user, url: group_invitation_path(@group), method: :post, local: true do |f| %>
+          <%= f.collection_select :user_id, @other_users, :id, :name %>
           <%= f.submit "招待する" %>
         <% end %>
       <% end %>
