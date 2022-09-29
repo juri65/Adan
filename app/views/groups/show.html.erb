@@ -4,16 +4,34 @@
       <h2>Group Detail</h2>
       <table class='table table-hover table-inverse'>
         <tr>
-          <td><%= attachment_image_tag(@group, :image, :fill, 50, 50, fallback: "no-image.jpg") %></td>
+          <td><%= image_tag @group.image.variant(resize: "50x50!", gravity: "center") %></td>
           <td><%= @group.name %></td>
           <td><%= @group.introduction %></td>
+          <td><%= @group.users.count %></td>
+          <td>
+              <% @group.users.each do |member| %>
+                <%= member.name %><br>
+              <% end %>
+          </td>
           <td>
             <% if @group.owner_id == current_user.id %>
-              <%= link_to 'Edit', edit_group_path(@group), class: "btn btn-sm btn-success" %>
+              <%= link_to 'Edit', edit_group_path(@group), class: "btn btn-sm btn-outline-success" %>
+              <%= link_to 'Delete', group_all_destroy_path(@group), method: :delete, class: "btn btn-sm btn-outline-danger" %>
+              <%# elsif @group.users.include?(current_user) %>
+                <%#= link_to 'Leave this group', group_path(@group), method: :delete, data: { confirm: '本当に削除しますか？' } , class: "btn btn-sm btn-danger" %>
+              <%# else %>
+                <%#= link_to 'Join this group', group_join_path(@group), class: "btn btn-sm btn-success" %>
             <% end %>
           </td>
         </tr>
       </table>
+       <!--@other_users は、チームに所属していないユーザーの値を取得している。-->
+      <% if @other_users.exists? %>
+        <%= form_with model: @user, url: invitation_group_path(@group), method: :post, local: true do |f| %>
+          <%= f.collection_select :user_id, @other_users, :id, :nickname %>
+          <%= f.submit "招待する" %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>

@@ -29,5 +29,9 @@ Rails.application.routes.draw do
    # 通知
   resources :notifications, only: :index
    # グループ
-  resources :groups, except: [:destroy]
+  resources :groups, only: [:index, :show, :new, :create, :edit, :update,:destroy] do
+      get "join" => "groups#join"
+       delete "all_destroy" => 'groups#all_destroy'
+      post :invitation
+  end 
 end

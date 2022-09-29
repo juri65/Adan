@@ -5,6 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
    has_many :posts, dependent: :destroy
    has_many :group_users
+   has_many:groups, through: :group_users,dependent: :destroy
+   # グループオーナー表示のため
+   has_many :owned_groups, class_name: "Group"
+   
    has_many :favorites, dependent: :destroy
    has_many :comments, dependent: :destroy
    # フォローをした、されたの関係
