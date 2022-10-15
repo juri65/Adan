@@ -76,7 +76,7 @@ class GroupsController < ApplicationController
   end 
   
   def join
-    @group = Group.find(params[:id])
+    @group = Group.find(params[:group_id])
     # @group.users に、current_userのレコードが含まれていなければ以下の処理を行う。
     unless @group.users.include?(current_user)
     # @group.users に、current_user のレコードを追加する。

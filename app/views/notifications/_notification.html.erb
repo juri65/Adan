@@ -13,10 +13,10 @@
   <% end %>
   
   <% case notification.action %>
-    <% when "invitaion" %>
-        <%= link_to "visitor.name", user_path(visitor) %>
+    <% when "invitation" %>
+        <%= link_to visitor.name, user_path(visitor) %>
         さんからチームへの招待が届きました。
         <!--このリンクをクリックすると、チーム加入処理を行う join アクションが働く。-->
-        <%= link_to "参加する", group_join_path(notification.team_id) %>
+        <%= link_to "参加する", group_join_path(notification.group_id) %>
   <% end %>
 </div>
